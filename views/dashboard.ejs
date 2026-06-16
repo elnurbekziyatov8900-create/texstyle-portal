@@ -1,0 +1,45 @@
+<%- include('partials/header') %>
+
+<div class="page-head">
+  <div class="wrap">
+    <span class="eyebrow">CRM · Boshqaruv paneli</span>
+    <h1><%= user.businessName %></h1>
+    <p><%= user.email %></p>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="stats" style="margin-bottom:36px">
+      <div class="stat"><div class="k">Buyurtmalar</div><div class="v"><%= orders.length %></div></div>
+      <div class="stat"><div class="k">Jami sarf</div><div class="v">£<%= spend.toFixed(2) %></div></div>
+      <div class="stat"><div class="k">Faol</div><div class="v"><%= orders.filter(o => o.status !== 'Dispatched').length %></div></div>
+      <div class="stat"><div class="k">Yetkazilgan</div><div class="v"><%= orders.filter(o => o.status === 'Dispatched').length %></div></div>
+    </div>
+
+    <div class="sec-head" style="margin-bottom:18px"><h2 style="font-size:24px">Buyurtmalar tarixi</h2></div>
+    <% if (!orders.length) { %>
+      <div class="empty"><p style="margin-bottom:16px">Hali buyurtma bermagansiz.</p><a class="btn red" href="/catalogue">Birinchi buyurtma →</a></div>
+    <% } else { %>
+      <div class="table-scroll">
+      <table>
+        <thead><tr><th>Ref</th><th>Sana</th><th>Mahsulotlar</th><th>Summa</th><th>Holat</th><th></th></tr></thead>
+        <tbody>
+          <% orders.forEach(o => { %>
+            <tr>
+              <td class="mono"><%= o.ref %></td>
+              <td><%= new Date(o.createdAt).toLocaleDateString('en-GB') %></td>
+              <td><%= o.items.reduce((s,i)=>s+i.qty,0) %> dona · <%= o.items.length %> liniya</td>
+              <td><strong>£<%= o.total.toFixed(2) %></strong></td>
+              <td><span class="status <%= o.status %>"><%= o.status %></span></td>
+              <td><a class="btn sm" href="/orders/<%= o.id %>">Ko'rish</a></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

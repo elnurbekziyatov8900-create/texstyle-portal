@@ -1,0 +1,21 @@
+<%- include('partials/header') %>
+
+<div class="auth-wrap">
+  <div class="form-card">
+    <h1>Trade hisob ochish</h1>
+    <p class="sub">Bir ish kunida tasdiqlanadi · Qo'shilish to'lovi yo'q.</p>
+    <% if (error) { %><div class="alert"><%= error %></div><% } %>
+    <form method="POST" action="/register">
+      <label for="businessName">Do'kon / biznes nomi</label>
+      <input type="text" id="businessName" name="businessName" required placeholder="Masalan: Highbury Menswear Ltd">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required autocomplete="email">
+      <label for="password">Parol (kamida 6 belgi)</label>
+      <input type="password" id="password" name="password" required minlength="6" autocomplete="new-password">
+      <div style="margin-top:22px"><button class="btn red full" type="submit">Hisob ochish</button></div>
+    </form>
+    <p style="margin-top:18px;font-size:14px">Hisobingiz bormi? <a href="/login" style="color:var(--selvedge);font-weight:600">Kirish →</a></p>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

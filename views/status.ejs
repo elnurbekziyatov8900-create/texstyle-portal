@@ -1,0 +1,41 @@
+<%- include('partials/header') %>
+
+<div class="page-head">
+  <div class="wrap">
+    <span class="eyebrow">orders.texstyle.co.uk</span>
+    <h1>Tizim holati</h1>
+    <p>Jonli ko'rsatkichlar — ma'lumotlar bazasidan real vaqtda olinadi.</p>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="term" aria-label="Tizim holati terminali">
+      <div class="bar"><i></i><i></i><i></i></div>
+      <div>$ texstyle status --production</div>
+      <div><span class="g">●</span> texstyle-portal &nbsp;&nbsp;<span class="g">UP</span> · 200 OK · uptime <%= uptime %>s</div>
+      <div><span class="g">●</span> database &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="g">CONNECTED</span></div>
+      <div><span class="b">i</span> region: <%= region %> (London)</div>
+      <div><span class="b">i</span> node runtime: <%= node %></div>
+      <div><span class="b">i</span> products: <%= productStats.count %> · stock: <%= productStats.totalStock.toLocaleString() %> dona</div>
+      <div><span class="b">i</span> customers: <%= customerCount %> · orders: <%= orderStats.count %></div>
+      <div><span class="b">i</span> revenue: <span class="y">£<%= orderStats.revenue.toLocaleString() %></span> · pending: <%= orderStats.pending %></div>
+      <div><span class="g">✓</span> health endpoint: <span class="b">/health</span> · API: <span class="b">/api/status</span></div>
+    </div>
+
+    <div class="stats" style="margin-top:36px">
+      <div class="stat"><div class="k">Mahsulotlar</div><div class="v"><%= productStats.count %></div></div>
+      <div class="stat"><div class="k">Jami zaxira</div><div class="v"><%= productStats.totalStock.toLocaleString() %></div></div>
+      <div class="stat"><div class="k">Do'konlar</div><div class="v"><%= customerCount %></div></div>
+      <div class="stat"><div class="k">Buyurtmalar</div><div class="v"><%= orderStats.count %></div></div>
+    </div>
+
+    <div class="note" style="margin-top:28px">
+      Bu sahifadagi barcha raqamlar <strong>jonli</strong> — har safar yangilanganda ma'lumotlar bazasidan o'qiladi.
+      JSON ko'rinishi: <a href="/api/status" class="mono" style="color:var(--selvedge)">/api/status</a>,
+      sog'liq tekshiruvi (ALB uchun): <a href="/health" class="mono" style="color:var(--selvedge)">/health</a>.
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><%= title %> · TexStyle Wholesale Ltd</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+<div class="selvedge" aria-hidden="true"></div>
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="/">
+      <b>Tex<span>Style</span></b>
+      <small>Trade Portal</small>
+    </a>
+    <nav class="menu" aria-label="Asosiy">
+      <a href="/catalogue" class="<%= path && path.startsWith('/catalogue') ? 'on' : '' %>">Katalog</a>
+      <a href="/status" class="<%= path === '/status' ? 'on' : '' %>">Tizim holati</a>
+      <% if (user) { %>
+        <% if (user.role === 'admin') { %>
+          <a href="/admin" class="<%= path === '/admin' ? 'on' : '' %>">Ombor paneli</a>
+        <% } else { %>
+          <a href="/dashboard" class="<%= path === '/dashboard' ? 'on' : '' %>">Panel</a>
+          <a href="/cart">Savat<% if (cartCount) { %><span class="badge-cart"><%= cartCount %></span><% } %></a>
+        <% } %>
+        <form method="POST" action="/logout" style="display:inline">
+          <button class="btn sm" type="submit">Chiqish</button>
+        </form>
+      <% } else { %>
+        <a href="/login" class="<%= path === '/login' ? 'on' : '' %>">Kirish</a>
+        <a class="btn solid sm" href="/register">Trade hisob ochish</a>
+      <% } %>
+    </nav>
+  </div>
+</header>
+<main>

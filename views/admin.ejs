@@ -1,0 +1,72 @@
+<%- include('partials/header') %>
+
+<div class="page-head">
+  <div class="wrap">
+    <span class="eyebrow">WMS · Ombor paneli</span>
+    <h1>Ombor boshqaruvi</h1>
+    <p>Barcha buyurtmalar va zaxira holati (Manchester ombori).</p>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="stats" style="margin-bottom:36px">
+      <div class="stat"><div class="k">Jami buyurtma</div><div class="v"><%= orderStats.count %></div></div>
+      <div class="stat"><div class="k">Daromad</div><div class="v">£<%= orderStats.revenue.toLocaleString() %></div></div>
+      <div class="stat"><div class="k">Bajarilmagan</div><div class="v red"><%= orderStats.pending %></div></div>
+      <div class="stat"><div class="k">Kam zaxira (SKU)</div><div class="v red"><%= productStats.lowStock %></div></div>
+    </div>
+
+    <div class="sec-head" style="margin-bottom:18px"><h2 style="font-size:24px">Buyurtmalar (WMS)</h2></div>
+    <% if (!orders.length) { %>
+      <div class="empty">Hali buyurtma yo'q.</div>
+    <% } else { %>
+      <div class="table-scroll">
+      <table>
+        <thead><tr><th>Ref</th><th>Do'kon</th><th>Sana</th><th>Summa</th><th>Holat</th><th>Holatni o'zgartirish</th></tr></thead>
+        <tbody>
+          <% orders.forEach(o => { %>
+            <tr>
+              <td class="mono"><a href="/orders/<%= o.id %>" style="color:var(--indigo)"><%= o.ref %></a></td>
+              <td><%= o.customer %></td>
+              <td><%= new Date(o.createdAt).toLocaleDateString('en-GB') %></td>
+              <td><strong>£<%= o.total.toFixed(2) %></strong></td>
+              <td><span class="status <%= o.status %>"><%= o.status %></span></td>
+              <td>
+                <form method="POST" action="/admin/order/<%= o.id %>/status" style="display:flex;gap:6px">
+                  <select name="status">
+                    <option <%= o.status==='Processing'?'selected':'' %>>Processing</option>
+                    <option <%= o.status==='Picked'?'selected':'' %>>Picked</option>
+                    <option <%= o.status==='Dispatched'?'selected':'' %>>Dispatched</option>
+                  </select>
+                  <button class="btn sm" type="submit">Saqlash</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+      </div>
+    <% } %>
+
+    <div class="sec-head" style="margin:44px 0 18px"><h2 style="font-size:24px">Zaxira holati (ERP)</h2></div>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th>SKU</th><th>Mahsulot</th><th>Yo'nalish</th><th>Narx</th><th>Zaxira</th></tr></thead>
+      <tbody>
+        <% products.forEach(p => { const cls = p.stock>50?'in':(p.stock>0?'low':'out'); %>
+          <tr>
+            <td class="mono"><%= p.sku %></td>
+            <td><%= p.name %></td>
+            <td><%= p.category %></td>
+            <td>£<%= p.price.toFixed(2) %></td>
+            <td><span class="stock <%= cls %>"><%= p.stock %></span></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

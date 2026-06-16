@@ -1,0 +1,39 @@
+<%- include('partials/header') %>
+
+<div class="page-head">
+  <div class="wrap">
+    <span class="eyebrow">Buyurtma tasdig'i</span>
+    <h1><%= order.ref %></h1>
+    <p>Holat: <%= order.status %> · <%= new Date(order.createdAt).toLocaleString('en-GB') %></p>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div style="background:#E7F3E1;border-left:4px solid var(--green);padding:14px 18px;margin-bottom:26px;font-size:15px;color:#1a5c00">
+      ✓ Buyurtmangiz qabul qilindi. Ombor (WMS) uni qayta ishlamoqda.
+    </div>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th>SKU</th><th>Mahsulot</th><th>Narx</th><th>Miqdor</th><th>Jami</th></tr></thead>
+      <tbody>
+        <% order.items.forEach(i => { %>
+          <tr>
+            <td class="mono"><%= i.sku %></td>
+            <td><%= i.name %></td>
+            <td>£<%= i.price.toFixed(2) %></td>
+            <td><%= i.qty %></td>
+            <td><strong>£<%= i.lineTotal.toFixed(2) %></strong></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    </div>
+    <div style="font-family:'Archivo',sans-serif;font-size:26px;font-weight:800;color:var(--indigo);text-align:right;margin-top:20px">
+      Jami: £<%= order.total.toFixed(2) %>
+    </div>
+    <div style="margin-top:24px"><a class="btn" href="/dashboard">← Panelga qaytish</a></div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

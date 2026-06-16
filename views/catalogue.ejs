@@ -1,0 +1,49 @@
+<%- include('partials/header') %>
+
+<div class="page-head">
+  <div class="wrap">
+    <span class="eyebrow">ERP · Jonli katalog</span>
+    <h1>Mahsulotlar katalogi</h1>
+    <p>Zaxira darajasi ma'lumotlar bazasidan real vaqtda. <%= products.length %> ta mahsulot ko'rsatilmoqda.</p>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="chips">
+      <a class="chip <%= active === 'all' ? 'on' : '' %>" href="/catalogue">Hammasi</a>
+      <% categories.forEach(c => { %>
+        <a class="chip <%= active === c ? 'on' : '' %>" href="/catalogue?category=<%= encodeURIComponent(c) %>"><%= c %></a>
+      <% }) %>
+    </div>
+
+    <div class="grid">
+      <% products.forEach(p => {
+           const cls = p.stock > 50 ? 'in' : (p.stock > 0 ? 'low' : 'out');
+           const label = p.stock > 50 ? 'Zaxirada' : (p.stock > 0 ? 'Kam qoldi' : 'Tugagan'); %>
+        <div class="card">
+          <div class="sku mono"><%= p.sku %></div>
+          <h3><%= p.name %></h3>
+          <p class="desc"><%= p.desc %></p>
+          <div class="meta">
+            <span class="price">£<%= p.price.toFixed(2) %> <small>/ dona</small></span>
+            <span class="stock <%= cls %>"><%= label %> · <%= p.stock %></span>
+          </div>
+          <% if (user && user.role !== 'admin' && p.stock > 0) { %>
+            <form method="POST" action="/cart/add" class="qty-row">
+              <input type="hidden" name="productId" value="<%= p.id %>">
+              <input type="number" name="qty" value="12" min="1" max="<%= p.stock %>" aria-label="Miqdor">
+              <button class="btn sm full" type="submit">Savatga</button>
+            </form>
+          <% } else if (!user) { %>
+            <a class="btn sm full" href="/login?next=/catalogue">Buyurtma uchun kiring</a>
+          <% } else if (p.stock === 0) { %>
+            <button class="btn sm full" disabled style="opacity:.5;cursor:not-allowed">Tugagan</button>
+          <% } %>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

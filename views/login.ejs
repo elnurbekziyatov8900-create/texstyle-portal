@@ -1,0 +1,25 @@
+<%- include('partials/header') %>
+
+<div class="auth-wrap">
+  <div class="form-card">
+    <h1>Trade hisobga kirish</h1>
+    <p class="sub">Do'koningiz hisobiga kiring va buyurtma bering.</p>
+    <% if (error) { %><div class="alert"><%= error %></div><% } %>
+    <form method="POST" action="/login">
+      <input type="hidden" name="next" value="<%= next %>">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required autocomplete="email" placeholder="demo@retailer.co.uk">
+      <label for="password">Parol</label>
+      <input type="password" id="password" name="password" required autocomplete="current-password">
+      <div style="margin-top:22px"><button class="btn red full" type="submit">Kirish</button></div>
+    </form>
+    <div class="note">
+      <strong>Demo hisoblar:</strong><br>
+      Do'kon: <span class="mono">demo@retailer.co.uk / texstyle2026</span><br>
+      Ombor (admin): <span class="mono">admin@texstyle.co.uk / warehouse2026</span>
+    </div>
+    <p style="margin-top:18px;font-size:14px">Hisobingiz yo'qmi? <a href="/register" style="color:var(--selvedge);font-weight:600">Trade hisob oching →</a></p>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,61 @@
+<%- include('partials/header') %>
+
+<div class="wrap hero">
+  <div>
+    <span class="eyebrow">UK Clothing Wholesale · Manchester &amp; London</span>
+    <h1>Mahsulotni buyurtma qiling,<br>jonli <em>zaxiradan</em>.</h1>
+    <p class="lead">TexStyle B2B trade portali — 1,200+ mustaqil chakana sotuvchiga jonli zaxira, real vaqtli buyurtma va keyingi kunda yetkazib berish imkonini beradi. Hammasi AWS bulutida ishlaydi.</p>
+    <div class="actions">
+      <a class="btn red" href="/catalogue">Katalogni ko'rish</a>
+      <% if (!user) { %><a class="btn" href="/register">Trade hisob ochish</a><% } else { %><a class="btn" href="/dashboard">Mening panelim</a><% } %>
+    </div>
+  </div>
+  <aside class="tag-card" aria-label="Jonli ko'rsatkichlar">
+    <span class="hole" aria-hidden="true"></span>
+    <h3>Jonli ko'rsatkichlar (DB)</h3>
+    <div class="tag-row"><span>Katalogdagi mahsulot</span><b><%= productStats.count %></b></div>
+    <div class="tag-row"><span>Jami zaxira (dona)</span><b><%= productStats.totalStock.toLocaleString() %></b></div>
+    <div class="tag-row"><span>Ro'yxatdagi do'konlar</span><b><%= customerCount %></b></div>
+    <div class="tag-row"><span>Jami buyurtmalar</span><b><%= orderStats.count %></b></div>
+    <div class="tag-row"><span>Kam qolgan mahsulot</span><b class="red"><%= productStats.lowStock %></b></div>
+  </aside>
+</div>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-inner">
+    <span>Menswear</span><span>Womenswear</span><span>Kidswear</span><span>Accessories</span><span>Jonli zaxira</span><span>Keyingi kunda yetkazish</span><span>B2B narxlar</span><span>API integratsiya</span>
+    <span>Menswear</span><span>Womenswear</span><span>Kidswear</span><span>Accessories</span><span>Jonli zaxira</span><span>Keyingi kunda yetkazish</span><span>B2B narxlar</span><span>API integratsiya</span>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Qanday ishlaydi</span>
+      <h2>Uch qadamda buyurtma.</h2>
+      <p>Portal kompaniyaning uchta tizimini birlashtiradi: katalog (ERP), hisob (CRM) va buyurtma bajarilishi (WMS).</p>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <div class="sku mono">01 — ERP</div>
+        <h3>Jonli katalog</h3>
+        <p class="desc">Mahsulotlar va zaxira darajasi ma'lumotlar bazasidan real vaqtda ko'rsatiladi. Har bir buyurtma zaxirani avtomatik kamaytiradi.</p>
+        <a class="btn sm" href="/catalogue">Katalogga o'tish</a>
+      </div>
+      <div class="card">
+        <div class="sku mono">02 — CRM</div>
+        <h3>Trade hisob</h3>
+        <p class="desc">Do'koningiz uchun xavfsiz hisob oching. Parollar bcrypt bilan shifrlanadi, sessiya orqali kirasiz.</p>
+        <% if (!user) { %><a class="btn sm" href="/register">Hisob ochish</a><% } else { %><a class="btn sm" href="/dashboard">Panelim</a><% } %>
+      </div>
+      <div class="card">
+        <div class="sku mono">03 — WMS</div>
+        <h3>Buyurtma va yetkazish</h3>
+        <p class="desc">Savatga qo'shing, buyurtma bering va holatini kuzating: Processing → Picked → Dispatched.</p>
+        <a class="btn sm" href="/status">Tizim holati</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

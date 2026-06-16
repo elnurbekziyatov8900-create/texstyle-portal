@@ -1,0 +1,49 @@
+<%- include('partials/header') %>
+
+<div class="page-head">
+  <div class="wrap"><span class="eyebrow">WMS · Savat</span><h1>Sizning savatingiz</h1></div>
+</div>
+
+<section>
+  <div class="wrap">
+    <% if (!items.length) { %>
+      <div class="empty">
+        <p style="font-size:18px;margin-bottom:16px">Savatingiz bo'sh.</p>
+        <a class="btn red" href="/catalogue">Katalogga o'tish</a>
+      </div>
+    <% } else { %>
+      <div class="table-scroll">
+      <table>
+        <thead><tr><th>SKU</th><th>Mahsulot</th><th>Narx</th><th>Miqdor</th><th>Jami</th><th></th></tr></thead>
+        <tbody>
+          <% items.forEach(i => { %>
+            <tr>
+              <td class="mono"><%= i.sku %></td>
+              <td><%= i.name %></td>
+              <td>£<%= i.price.toFixed(2) %></td>
+              <td><%= i.qty %></td>
+              <td><strong>£<%= i.lineTotal.toFixed(2) %></strong></td>
+              <td>
+                <form method="POST" action="/cart/remove">
+                  <input type="hidden" name="productId" value="<%= i.id %>">
+                  <button class="btn sm" type="submit">O'chirish</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:26px;flex-wrap:wrap;gap:16px">
+        <div style="font-family:'Archivo',sans-serif;font-size:26px;font-weight:800;color:var(--indigo)">
+          Jami: £<%= total.toFixed(2) %>
+        </div>
+        <form method="POST" action="/checkout">
+          <button class="btn red" type="submit">Buyurtmani tasdiqlash →</button>
+        </form>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
