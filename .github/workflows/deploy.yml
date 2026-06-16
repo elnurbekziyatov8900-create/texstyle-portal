@@ -1,33 +1,26 @@
 name: CI/CD - TexStyle Portal
 
-# Kod main branch'ga push qilinganda avtomatik ishga tushadi
 on:
   push:
     branches: [ master ]
 
 jobs:
-  # ---------- CI: kodni tekshirish va build ----------
   ci:
     name: CI - Build & Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-
       - name: Install dependencies
         run: npm install
-
       - name: CI - Syntax check (server)
         run: node --check server.js
-
       - name: CI - Seed database (smoke test)
         run: npm run seed
-
       - name: CI - Health smoke test
         run: |
           node server.js &
@@ -35,10 +28,9 @@ jobs:
           curl -fsS http://localhost:3000/health && echo " ✓ health OK"
           curl -fsS http://localhost:3000/api/status > /dev/null && echo " ✓ API OK"
 
-  # ---------- CD: EC2 serverga avtomatik deploy ----------
   cd:
     name: CD - Deploy to EC2
-    needs: ci          # CI muvaffaqiyatli tugagandagina ishlaydi
+    needs: ci
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to EC2 via SSH
@@ -47,9 +39,11 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ubuntu
           key: ${{ secrets.SSH_KEY }}
+          port: 22
           script: |
-            cd /var/www/texstyle-portal
-            git pull origin main
+            export PATH=$PATH:/usr/bin:/usr/local/bin
+            cd /var/www/texstyle-portal || exit 1
+            git pull origin master
             npm install --omit=dev
             pm2 restart texstyle-portal || pm2 start ecosystem.config.js
             pm2 save
