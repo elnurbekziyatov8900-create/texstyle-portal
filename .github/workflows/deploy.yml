@@ -3,7 +3,7 @@ name: CI/CD - TexStyle Portal
 # Kod main branch'ga push qilinganda avtomatik ishga tushadi
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   # ---------- CI: kodni tekshirish va build ----------
